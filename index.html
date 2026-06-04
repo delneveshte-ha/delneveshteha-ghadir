@@ -3,604 +3,574 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>روزنامه دیواری غدیر | دلنوشته‌هایی برای مولای متقیان</title>
+  <title>روزنامه دیواری غدیر</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Tahoma', 'Vazirmatn', sans-serif;
-      background: #2b1e10;
-      background-image: radial-gradient(circle at 20% 30%, #3d2b1a 5%, #1f1408 90%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      margin: 0;
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:Tahoma,sans-serif;
+      background:#2b1e10;
+      background-image:radial-gradient(circle at 20% 30%,#3d2b1a 5%,#1f1408 90%);
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;
+      padding:20px;transition:0.5s;position:relative;overflow-x:hidden;
     }
-
-    .top-menu {
-      width: 100%;
-      max-width: 950px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
+    body.theme1{background:#2b1e10;background-image:radial-gradient(circle at 20% 30%,#3d2b1a 5%,#1f1408 90%)}
+    body.theme2{background:#1a1a2e;background-image:radial-gradient(circle at 20% 30%,#2a2a4e 5%,#0f0f1a 90%)}
+    body.theme3{background:#1a2e1a;background-image:radial-gradient(circle at 20% 30%,#2a4e2a 5%,#0a1a0a 90%)}
+    body.theme4{background:#2e1a2e;background-image:radial-gradient(circle at 20% 30%,#4e2a4e 5%,#1a0a1a 90%)}
+    body.theme5{background:#2e2e1a;background-image:radial-gradient(circle at 20% 30%,#4e4e2a 5%,#1a1a0a 90%)}
+    body.theme6{background:#1a2e2e;background-image:radial-gradient(circle at 20% 30%,#2a4e4e 5%,#0a1a1a 90%)}
+    body.theme7{background:#2e1a1a;background-image:radial-gradient(circle at 20% 30%,#4e2a2a 5%,#1a0a0a 90%)}
+    body.theme8{background:#1a1a3e;background-image:radial-gradient(circle at 20% 30%,#2a2a5e 5%,#0a0a2e 90%)}
+    body.theme9{background:#3e2e1a;background-image:radial-gradient(circle at 20% 30%,#5e4e2a 5%,#2e1a0a 90%)}
+    body.theme10{background:#3e1a1a;background-image:radial-gradient(circle at 20% 30%,#5e2a2a 5%,#2e0a0a 90%)}
+    .sun-moon{
+      position:fixed;top:20px;left:50%;transform:translateX(-50%);
+      width:60px;height:60px;border-radius:50%;
+      background:radial-gradient(circle,#ffd700,#ff8c00);
+      box-shadow:0 0 40px #ffd700,0 0 80px #ff8c00;z-index:1;pointer-events:none;transition:1s;
     }
-
-    .menu-btn {
-      background: rgba(212, 175, 55, 0.8);
-      border: 2px solid #8b6508;
-      color: #3b2b10;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: bold;
-      font-size: 0.9rem;
-      backdrop-filter: blur(5px);
-      transition: 0.3s;
+    .sun-moon.night{background:radial-gradient(circle,#f0f0f0,#c0c0c0);box-shadow:0 0 20px #fff}
+    .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+    .confetti{
+      position:absolute;width:15px;height:15px;border-radius:3px;
+      animation:fall linear forwards;
     }
-
-    .menu-btn:hover { background: #d4af37; }
-
-    .logout-btn { background: #8b6508; color: white; }
-
-    .popup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 100;
-      justify-content: center;
-      align-items: center;
+    @keyframes fall{0%{transform:translateY(-100px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+    .firework{
+      position:absolute;width:8px;height:8px;border-radius:50%;
+      animation:explode 1.5s ease-out forwards;
     }
-
-    .popup.active { display: flex; }
-
-    .popup-content {
-      background: #fdf5e6;
-      border: 3px solid #d4af37;
-      border-radius: 20px;
-      padding: 25px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-      position: relative;
-      width: 90%;
+    @keyframes explode{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+    .top-menu{
+      width:100%;max-width:950px;display:flex;justify-content:space-between;
+      align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap;z-index:10;
     }
-
-    .popup-content h3 { color: #3b2b10; margin-bottom: 15px; }
-    .popup-content p { color: #5c3a1f; margin: 8px 0; }
-    .popup-content .email { color: #1e4d2b; font-weight: bold; direction: ltr; }
-    .popup-content .small-text { font-size: 0.75rem; color: #8b6508; margin-top: 12px; }
-
-    .close-btn {
-      position: absolute;
-      top: 10px; left: 15px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #8b6508;
-      background: none;
-      border: none;
+    .menu-left,.menu-right{display:flex;gap:5px;flex-wrap:wrap}
+    .menu-btn{
+      background:rgba(212,175,55,0.8);border:2px solid #8b6508;color:#3b2b10;
+      padding:6px 10px;border-radius:20px;cursor:pointer;font-family:inherit;
+      font-weight:bold;font-size:0.78rem;transition:0.3s;white-space:nowrap;
     }
-
-    .login-input {
-      padding: 10px;
-      border-radius: 20px;
-      border: 1px solid #c9a86b;
-      font-family: inherit;
-      text-align: center;
-      margin: 10px 0;
-      width: 80%;
+    .menu-btn:hover{background:#d4af37;transform:scale(1.05)}
+    .theme-selector{
+      background:rgba(212,175,55,0.8);border:2px solid #8b6508;color:#3b2b10;
+      padding:6px 8px;border-radius:20px;font-family:inherit;font-weight:bold;font-size:0.78rem;cursor:pointer;
     }
-
-    .login-btn {
-      background: #1e4d2b;
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: inherit;
-      margin: 5px;
+    .popup{
+      display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.7);z-index:100;justify-content:center;align-items:center;
     }
-
-    .error-msg { color: red; font-size: 0.8rem; display: none; }
-
-    .admin-panel {
-      display: none;
-      width: 100%;
-      max-width: 950px;
-      background: rgba(255, 248, 235, 0.95);
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 15px;
-      border: 2px solid #d4af37;
-      max-height: 400px;
-      overflow-y: auto;
+    .popup.active{display:flex}
+    .popup-content{
+      background:#fdf5e6;border:3px solid #d4af37;border-radius:20px;
+      padding:20px;max-width:550px;text-align:center;position:relative;
+      width:90%;box-shadow:0 15px 40px rgba(0,0,0,0.5);max-height:80vh;overflow-y:auto;
     }
-
-    .admin-panel.active { display: block; }
-    .admin-panel h3 { color: #3b2b10; text-align: center; margin-bottom: 10px; }
-
-    .admin-note {
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 8px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
+    .close-btn{position:absolute;top:8px;left:12px;font-size:1.5rem;cursor:pointer;color:#8b6508;background:none;border:none}
+    .login-input{
+      padding:8px;border-radius:20px;border:1px solid #c9a86b;font-family:inherit;
+      text-align:center;margin:8px 0;width:80%;
     }
-
-    .admin-note span { font-size: 0.85rem; color: #3b2b10; }
-    .admin-note button {
-      background: #c41e1e;
-      color: white;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 15px;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.8rem;
+    .login-btn{
+      background:#1e4d2b;color:white;border:none;padding:8px 20px;
+      border-radius:20px;cursor:pointer;font-family:inherit;
     }
-
-    .admin-note select {
-      padding: 5px;
-      border-radius: 10px;
-      border: 1px solid #c9a86b;
-      font-family: inherit;
-      font-size: 0.8rem;
+    .error-msg{color:red;font-size:0.8rem;display:none}
+    .admin-panel{
+      display:none;width:100%;max-width:950px;background:rgba(255,248,235,0.95);
+      border-radius:15px;padding:15px;margin-bottom:15px;border:2px solid #d4af37;
+      max-height:400px;overflow-y:auto;z-index:5;
     }
-
-    .outer-frame {
-      background: #d4af37;
-      background-image: linear-gradient(145deg, #f3e5ab 0%, #b8860b 50%, #8b6508 100%);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 2px 10px rgba(255,255,200,0.6);
-      border: 4px solid #6b4c1a;
-      width: 100%;
-      max-width: 950px;
+    .admin-panel.active{display:block}
+    .admin-note{
+      background:white;border-radius:10px;padding:8px;margin:6px 0;
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;
     }
-
-    .inner-frame {
-      background: #fdf5e6;
-      padding: 30px 25px;
-      border-radius: 6px;
-      box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.5);
-      border: 2px dashed #b8860b;
+    .admin-note button{background:#c41e1e;color:white;border:none;padding:4px 10px;border-radius:15px;cursor:pointer;font-family:inherit}
+    .admin-note select{padding:4px;border-radius:10px;border:1px solid #c9a86b;font-family:inherit}
+    .logout-btn{background:#8b6508!important;color:white}
+    .outer-frame{
+      background:#d4af37;background-image:linear-gradient(145deg,#f3e5ab 0%,#b8860b 50%,#8b6508 100%);
+      padding:20px;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.7),inset 0 2px 10px rgba(255,255,200,0.6);
+      border:4px solid #6b4c1a;width:100%;max-width:950px;z-index:5;position:relative;
     }
-
-    .title-section { text-align: center; margin-bottom: 25px; }
-
-    .main-title {
-      font-size: 4.5rem;
-      font-weight: 900;
-      color: #1e4d2b;
-      text-shadow: 3px 3px 0 #d4af37, 5px 5px 10px rgba(0,0,0,0.3);
-      letter-spacing: 5px;
-      margin: 0;
-      line-height: 1.2;
+    .inner-frame{
+      background:#fdf5e6;padding:30px 25px;border-radius:6px;
+      box-shadow:inset 0 0 30px rgba(139,69,19,0.5);border:2px dashed #b8860b;
     }
-
-    .subtitle {
-      font-size: 1.3rem;
-      color: #5c3a1f;
-      margin-top: 5px;
-      font-weight: 500;
-      background: rgba(212, 175, 55, 0.2);
-      display: inline-block;
-      padding: 5px 25px;
-      border-radius: 30px;
+    .main-title{
+      font-size:4.5rem;font-weight:900;color:#1e4d2b;
+      text-shadow:3px 3px 0 #d4af37,5px 5px 10px rgba(0,0,0,0.3);
+      text-align:center;margin-bottom:5px;letter-spacing:5px;
     }
-
-    .bulletin-board {
-      background: rgba(210, 180, 140, 0.25);
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px 0 25px;
-      min-height: 300px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 15px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
-      border: 1px solid #c9a86b;
-      background-image: radial-gradient(circle, #e7d3b5 1px, transparent 1px);
-      background-size: 30px 30px;
+    .subtitle{
+      text-align:center;color:#5c3a1f;margin-bottom:20px;
+      background:rgba(212,175,55,0.2);display:inline-block;padding:5px 25px;
+      border-radius:30px;width:100%;text-align:center;
     }
-
-    .note-card {
-      width: 130px;
-      min-height: 130px;
-      padding: 15px 10px;
-      box-shadow: 3px 4px 8px rgba(0,0,0,0.35);
-      font-size: 0.8rem;
-      line-height: 1.5;
-      word-break: break-word;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #2c2416;
-      font-weight: 500;
-      border-radius: 3px;
-      transform: rotate(var(--rot, 0deg));
-      animation: fadeIn 0.4s ease-out;
+    .bulletin-board{
+      background:rgba(210,180,140,0.25);border-radius:15px;padding:20px;
+      margin:20px 0;min-height:300px;display:flex;flex-wrap:wrap;
+      justify-content:center;gap:15px;border:1px solid #c9a86b;
+      background-image:radial-gradient(circle,#e7d3b5 1px,transparent 1px);background-size:30px 30px;
     }
-
-    .note-card:hover {
-      transform: rotate(var(--rot, 0deg)) scale(1.05);
-      box-shadow: 5px 7px 12px rgba(0,0,0,0.5);
-      z-index: 5;
+    .note-card{
+      width:140px;min-height:140px;padding:15px 10px 10px;box-shadow:3px 4px 8px rgba(0,0,0,0.35);
+      font-size:0.8rem;display:flex;flex-direction:column;align-items:center;
+      justify-content:space-between;text-align:center;border-radius:3px;
+      word-break:break-word;transition:0.3s;position:relative;
     }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: scale(0.7) rotate(var(--rot, 0deg)); }
-      100% { opacity: 1; transform: scale(1) rotate(var(--rot, 0deg)); }
+    .note-card:hover{transform:scale(1.05)!important;z-index:5;box-shadow:5px 7px 15px rgba(0,0,0,0.5)}
+    .note-text{flex:1;display:flex;align-items:center;font-style:italic}
+    .note-author{font-weight:bold;font-size:0.75rem;border-top:1px dashed rgba(0,0,0,0.2);padding-top:5px;width:100%}
+    .note-reactions{display:flex;gap:8px;margin-top:8px;font-size:0.75rem}
+    .reaction-btn{background:none;border:none;cursor:pointer;font-size:1.1rem;transition:0.3s;padding:3px 6px;border-radius:10px;position:relative}
+    .reaction-btn:hover{transform:scale(1.4)}
+    .reaction-efx{position:absolute;pointer-events:none;font-size:0.8rem;animation:floatUp 0.8s ease-out forwards}
+    @keyframes floatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-30px)}}
+    .color1{background:#fdeaa8}.color2{background:#b8e6c8}.color3{background:#f9c7b7}
+    .color4{background:#c7dff5}.color5{background:#e6c9e0}.color6{background:#fcd9b8}
+    .form-section{
+      background:rgba(255,248,235,0.75);backdrop-filter:blur(8px);border-radius:20px;
+      padding:20px;margin-top:15px;border:2px solid #d4af37;box-shadow:0 8px 18px rgba(0,0,0,0.3);
     }
-
-    .note-author {
-      font-weight: bold;
-      font-size: 0.8rem;
-      margin-top: 5px;
-      color: #4a2c0f;
-      border-top: 1px dashed rgba(0,0,0,0.2);
-      padding-top: 5px;
-      width: 100%;
+    .form-title{font-size:1.3rem;margin-bottom:12px;color:#3b2b10;font-weight:bold;text-align:center}
+    .input-group{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+    .input-field{
+      flex:1 1 180px;padding:12px 15px;border-radius:30px;border:1px solid #c9a86b;
+      font-family:inherit;background:#fffef7;font-size:0.9rem;
     }
-
-    .note-text { flex: 1; display: flex; align-items: center; justify-content: center; font-style: italic; }
-
-    .color1 { background: #fdeaa8; }
-    .color2 { background: #b8e6c8; }
-    .color3 { background: #f9c7b7; }
-    .color4 { background: #c7dff5; }
-    .color5 { background: #e6c9e0; }
-    .color6 { background: #fcd9b8; }
-
-    .form-section {
-      background: rgba(255, 248, 235, 0.75);
-      backdrop-filter: blur(8px);
-      border-radius: 20px;
-      padding: 20px;
-      margin-top: 15px;
-      border: 2px solid #d4af37;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    .color-options{display:flex;gap:8px;flex-wrap:wrap}
+    .color-circle{
+      width:28px;height:28px;border-radius:50%;cursor:pointer;
+      border:2px solid transparent;transition:0.2s;box-shadow:0 2px 5px rgba(0,0,0,0.2);
     }
-
-    .form-title {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-      color: #3b2b10;
-      font-weight: bold;
-      text-align: center;
+    .color-circle.selected{border:3px solid #2c3e1a;transform:scale(1.15);box-shadow:0 0 10px gold}
+    .btn-submit{
+      background:linear-gradient(135deg,#2c5e2e,#0f3b1a);border:none;color:white;
+      padding:14px 30px;border-radius:40px;font-size:1.1rem;font-weight:bold;
+      cursor:pointer;width:100%;transition:0.3s;box-shadow:0 6px 0 #0a1f0e;
+      letter-spacing:1px;border:1px solid #d4af37;font-family:inherit;
     }
-
-    .input-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
-
-    .input-field {
-      flex: 1 1 180px;
-      padding: 12px 15px;
-      border-radius: 30px;
-      border: 1px solid #c9a86b;
-      font-family: inherit;
-      background: #fffef7;
-      font-size: 0.9rem;
+    .btn-submit:hover{transform:translateY(2px);box-shadow:0 4px 0 #0a1f0e}
+    .stats-bar{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin:15px 0;font-size:0.85rem;color:#4b3621}
+    .ahd-item{padding:8px;margin:5px 0;border-bottom:1px dashed #c9a86b;font-size:0.9rem;color:#3b2b10;text-align:right}
+    .dua-item{
+      background:rgba(255,248,235,0.5);padding:12px;margin:8px 0;border-radius:10px;
+      border:1px solid #c9a86b;cursor:pointer;transition:0.3s;text-align:right;
     }
-
-    .color-picker-label { display: flex; align-items: center; gap: 8px; flex: 1 1 200px; font-size: 0.9rem; color: #4a3520; }
-    .color-options { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .color-circle {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: 0.2s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    .dua-item:hover{background:rgba(212,175,55,0.3)}
+    .salawat-counter{
+      background:linear-gradient(135deg,#1e4d2b,#0f3b1a);color:white;padding:15px;
+      border-radius:15px;text-align:center;margin:10px 0;border:2px solid #d4af37;
     }
-    
-    .color-circle.selected {
-      border: 3px solid #2c3e1a;
-      transform: scale(1.15);
-      box-shadow: 0 0 10px gold;
+    .salawat-counter .count{font-size:2rem;font-weight:bold;color:#ffd700}
+    .salawat-counter button{
+      background:#d4af37;color:#1e4d2b;border:none;padding:10px 30px;
+      border-radius:30px;font-size:1.1rem;font-weight:bold;cursor:pointer;margin-top:8px;font-family:inherit;
     }
-
-    .btn-submit {
-      background: linear-gradient(135deg, #2c5e2e, #0f3b1a);
-      border: none;
-      color: white;
-      padding: 14px 30px;
-      border-radius: 40px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      transition: 0.3s;
-      box-shadow: 0 6px 0 #0a1f0e;
-      letter-spacing: 1px;
-      border: 1px solid #d4af37;
-      font-family: inherit;
+    .progress-bar{width:100%;height:10px;background:#555;border-radius:5px;margin:8px 0}
+    .progress-fill{height:100%;background:#ffd700;border-radius:5px;transition:0.5s}
+    .gift-options{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+    .gift-btn{font-size:2rem;cursor:pointer;padding:10px;border-radius:15px;border:2px solid transparent;transition:0.3s;background:none}
+    .gift-btn:hover{border-color:#d4af37;transform:scale(1.2);background:rgba(212,175,55,0.2)}
+    .tree-container{
+      width:100%;height:300px;position:relative;
+      background:linear-gradient(180deg,#87ceeb 0%,#e0f0e0 100%);border-radius:10px;overflow:hidden;
     }
-
-    .btn-submit:hover {
-      background: linear-gradient(135deg, #367a39, #1e4d2b);
-      box-shadow: 0 4px 0 #0a1f0e;
-      transform: translateY(2px);
+    .tree-trunk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40px;height:120px;background:#8b4513;border-radius:5px}
+    .tree-leaves{
+      position:absolute;bottom:100px;left:50%;transform:translateX(-50%);
+      width:0;height:0;border-left:80px solid transparent;border-right:80px solid transparent;border-bottom:120px solid #228b22;
     }
-
-    .message-counter { text-align: center; margin: 10px 0; color: #4b3621; font-weight: 500; }
-    .loading { text-align: center; color: #6b4f32; padding: 40px; font-style: italic; }
-
-    @media (max-width: 600px) {
-      .outer-frame { padding: 12px; }
-      .main-title { font-size: 3rem; }
-      .note-card { width: 100px; min-height: 110px; font-size: 0.7rem; }
+    .tree-leaves2{
+      position:absolute;bottom:140px;left:50%;transform:translateX(-50%);
+      width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:90px solid #2e8b2e;
+    }
+    .tree-stats{position:absolute;bottom:10px;width:100%;text-align:center;font-size:0.8rem;color:#1a1a1a;font-weight:bold}
+    .khotbeh-text{text-align:justify;line-height:2;padding:15px;font-size:0.95rem;color:#3b2b10;max-height:400px;overflow-y:auto}
+    .khotbeh-text .highlight{background:rgba(212,175,55,0.4);padding:5px;border-radius:5px;font-weight:bold}
+    .guide-section{text-align:right;line-height:2;font-size:0.9rem;color:#3b2b10}
+    .guide-section h3{color:#1e4d2b;margin:10px 0;border-bottom:1px solid #d4af37;padding-bottom:5px}
+    @media(max-width:600px){
+      .outer-frame{padding:12px}.main-title{font-size:3rem}
+      .note-card{width:110px;min-height:120px;font-size:0.7rem}
+      .menu-btn{font-size:0.65rem;padding:4px 6px}
     }
   </style>
 </head>
-<body>
+<body class="theme1">
+
+<div class="sun-moon" id="sunMoon"></div>
+<div class="confetti-container" id="confettiContainer"></div>
 
 <div class="top-menu">
-  <button class="menu-btn" onclick="openContactPopup()">📧 ارتباط با سازنده</button>
-  <button class="menu-btn" id="adminLoginBtn" onclick="openAdminLoginPopup()">🔐 ورود سازنده</button>
-  <button class="menu-btn logout-btn" id="logoutBtn" style="display:none;" onclick="logout()">🚪 خروج</button>
+  <div class="menu-right">
+    <button class="menu-btn" onclick="openPopup('guidePopup')">📚 راهنما</button>
+    <button class="menu-btn" onclick="openPopup('contactPopup')">📧 ارتباط با سازنده</button>
+    <button class="menu-btn" id="adminLoginBtn" onclick="openPopup('adminLoginPopup')">🔐 ورود سازنده</button>
+    <button class="menu-btn logout-btn" id="logoutBtn" style="display:none" onclick="logout()">🚪 خروج</button>
+  </div>
+  <div class="menu-left">
+    <select class="theme-selector" id="themeSelect" onchange="changeTheme(this.value)">
+      <option value="theme1">🎨 طلایی</option><option value="theme2">🌙 آبی</option>
+      <option value="theme3">🌿 سبز</option><option value="theme4">💜 بنفش</option>
+      <option value="theme5">🌻 زرد</option><option value="theme6">🌊 فیروزه</option>
+      <option value="theme7">❤️ قرمز</option><option value="theme8">🔮 نیلی</option>
+      <option value="theme9">🍂 پاییزی</option><option value="theme10">🌶️ آجری</option>
+    </select>
+    <button class="menu-btn" onclick="openPopup('ahdPopup')">📜 طومار عهد</button>
+    <button class="menu-btn" onclick="openPopup('duaPopup')">🤲 دعا</button>
+    <button class="menu-btn" onclick="openPopup('khotbehPopup')">📜 فرمان غدیر</button>
+    <button class="menu-btn" onclick="openPopup('hadithPopup')">📖 احادیث</button>
+    <button class="menu-btn" onclick="openPopup('giftPopup')">🎁 هدیه</button>
+    <button class="menu-btn" onclick="openPopup('treePopup')">🌳 درخت غدیر</button>
+    <button class="menu-btn" onclick="showRandomNote()">🎲 شانسی</button>
+  </div>
 </div>
 
 <div class="admin-panel" id="adminPanel">
-  <h3>🛠️ پنل مدیریت</h3>
+  <h3 style="text-align:center;color:#3b2b10;margin-bottom:10px">🛠️ پنل مدیریت</h3>
   <div id="adminNotesList"></div>
 </div>
 
+<div class="popup" id="guidePopup"><div class="popup-content" id="guideContent"></div></div>
+
 <div class="popup" id="contactPopup">
   <div class="popup-content">
-    <button class="close-btn" onclick="closeContactPopup()">✕</button>
+    <button class="close-btn" onclick="closePopup('contactPopup')">✕</button>
     <h3>📧 ارتباط با سازنده</h3>
-    <p>برای ارتباط با سازنده:</p>
-    <p class="email">ali.ali.barghamadi.4.4@gmail.com</p>
-    <p class="small-text">علی برغمدی</p>
+    <p>ali.ali.barghamadi.4.4@gmail.com</p>
+    <p style="font-size:0.75rem;color:#8b6508">علی برغمدی</p>
   </div>
 </div>
 
 <div class="popup" id="adminLoginPopup">
   <div class="popup-content">
-    <button class="close-btn" onclick="closeAdminLoginPopup()">✕</button>
+    <button class="close-btn" onclick="closePopup('adminLoginPopup')">✕</button>
     <h3>🔐 ورود سازنده</h3>
-    <input type="password" class="login-input" id="adminPassword" placeholder="رمز عبور">
-    <br>
+    <input type="password" id="adminPassword" class="login-input" placeholder="رمز عبور"><br>
     <button class="login-btn" onclick="adminLogin()">ورود</button>
-    <p class="error-msg" id="loginError">❌ رمز اشتباه است!</p>
+    <p class="error-msg" id="loginError">❌ رمز اشتباه!</p>
   </div>
+</div>
+
+<div class="popup" id="ahdPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closePopup('ahdPopup')">✕</button>
+    <h3>📜 طومار عهد با مولایمان حضرت علی (ع)</h3>
+    <p style="color:#1e4d2b;font-weight:bold;margin:15px 0">با مولایمان حضرت علی (ع) عهد می‌بندیم که...</p>
+    <div id="ahdList"></div>
+    <input type="text" id="ahdName" class="login-input" placeholder="نام شما..." style="width:60%"><br>
+    <input type="text" id="ahdText" class="login-input" placeholder="عهد خود را بنویسید..." style="width:80%"><br>
+    <button class="login-btn" onclick="addAhd()">🖊️ امضا</button>
+    <p style="margin-top:10px">تعداد عهدها: <span id="ahdCount">0</span></p>
+  </div>
+</div>
+
+<div class="popup" id="duaPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closePopup('duaPopup')">✕</button>
+    <h3>🤲 بخش دعا</h3>
+    <div id="duaList"></div>
+    <input type="text" id="duaName" class="login-input" placeholder="نام شما..." style="width:60%"><br>
+    <textarea id="duaText" class="login-input" rows="2" placeholder="دعای خود را بنویسید..." style="width:80%"></textarea><br>
+    <button class="login-btn" onclick="addDua()">🤲 ثبت دعا</button>
+    <p style="font-size:0.75rem;color:#8b6508;margin-top:10px">💡 روی هر دعا دابل کلیک کن تا آمین بگی!</p>
+  </div>
+</div>
+
+<div class="popup" id="khotbehPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closePopup('khotbehPopup')">✕</button>
+    <h3>📜 فرمان غدیر</h3>
+    <div class="khotbeh-text">
+      <p>پس از حمد و ثنای الهی، پیامبر اکرم (ص) فرمودند:</p>
+      <p style="margin:15px 0">«ای مردم! همانا خداوند مولای من است و من مولای مؤمنان هستم. پس <span class="highlight">هر که من مولای اویم، این علی مولای اوست.</span>»</p>
+      <p>«اللهم وال من والاه و عاد من عاداه و انصر من نصره و اخذل من خذله»</p>
+      <p style="margin:15px 0">«خداوندا! دوست بدار هر که علی را دوست دارد و دشمن بدار هر که علی را دشمن دارد.»</p>
+      <p>سپس این آیه نازل شد: <span class="highlight">الیوم اکملت لکم دینکم و اتممت علیکم نعمتی و رضیت لکم الاسلام دینا</span></p>
+      <p>«امروز دین شما را کامل کردم و نعمت خود را بر شما تمام نمودم.»</p>
+    </div>
+  </div>
+</div>
+
+<div class="popup" id="hadithPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closePopup('hadithPopup')">✕</button>
+    <h3>📖 کتاب‌خانه احادیث علوی</h3>
+    <div id="hadithDisplay" style="padding:20px;font-size:1.1rem;color:#1e4d2b;min-height:100px"></div>
+    <button class="login-btn" onclick="showRandomHadith()">▶️ حدیث بعدی</button>
+    <button class="login-btn" onclick="saveHadith()" style="background:#8b6508">❤️ ذخیره</button>
+    <div id="savedHadiths" style="margin-top:15px;text-align:right;font-size:0.85rem"></div>
+  </div>
+</div>
+
+<div class="popup" id="giftPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closePopup('giftPopup')">✕</button>
+    <h3>🎁 هدیه به مولای متقیان</h3>
+    <div class="gift-options">
+      <button class="gift-btn" onclick="sendGift('🌹')">🌹</button>
+      <button class="gift-btn" onclick="sendGift('💚')">💚</button>
+      <button class="gift-btn" onclick="sendGift('🕯️')">🕯️</button>
+      <button class="gift-btn" onclick="sendGift('📖')">📖</button>
+      <button class="gift-btn" onclick="sendGift('🏮')">🏮</button>
+      <button class="gift-btn" onclick="sendGift('💎')">💎</button>
+    </div>
+    <div id="giftStats" style="margin-top:10px;font-size:0.9rem;color:#4b3621"></div>
+  </div>
+</div>
+
+<div class="popup" id="treePopup">
+  <div class="popup-content" style="max-width:400px">
+    <button class="close-btn" onclick="closePopup('treePopup')">✕</button>
+    <h3>🌳 درخت غدیر</h3>
+    <div class="tree-container">
+      <div class="tree-leaves2"></div>
+      <div class="tree-leaves"></div>
+      <div class="tree-trunk"></div>
+      <div class="tree-stats" id="treeStats"></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup" id="randomNotePopup">
+  <div class="popup-content" id="randomNoteContent"></div>
 </div>
 
 <div class="outer-frame">
   <div class="inner-frame">
-    <div class="title-section">
-      <h1 class="main-title">غدیر</h1>
-      <div class="subtitle">📜 دلنوشته‌هایی برای امیرالمؤمنین علی (ع) 📜</div>
+    <h1 class="main-title">غدیر</h1>
+    <p class="subtitle">📜 دلنوشته‌هایی برای امیرالمؤمنین علی (ع) 📜</p>
+    
+    <div class="salawat-counter">
+      <h3>📿 صلوات شمار غدیر</h3>
+      <div class="count" id="salawatCount">0</div>
+      <p>هدف: ۱۱۰,۰۰۰ صلوات</p>
+      <div class="progress-bar"><div class="progress-fill" id="salawatProgress" style="width:0%"></div></div>
+      <button onclick="sendSalawat()">🕊️ فرستادن صلوات</button>
     </div>
-
+    
+    <div class="stats-bar">
+      <span>📝 دلنوشته‌ها: <b id="noteCount">0</b></span>
+      <span>🕊️ صلوات: <b id="totalSalawat">0</b></span>
+      <span>🌹 گل: <b id="totalFlowers">0</b></span>
+      <span>💡 نور: <b id="totalLights">0</b></span>
+    </div>
+    
     <div id="bulletinBoard" class="bulletin-board">
-      <div class="loading">⏳ در حال بارگذاری دلنوشته‌ها...</div>
+      <p style="color:#6b4f32;width:100%;text-align:center;padding:40px">⏳ در حال بارگذاری...</p>
     </div>
-
-    <div class="message-counter">تاکنون <span id="noteCount">0</span> دلنوشته به این روزنامه دیواری اضافه شده است.</div>
-
+    
     <div class="form-section">
-      <div class="form-title">✍️ دلنوشته خود را بنویسید</div>
+      <p class="form-title">✍️ دلنوشته خود را بنویسید</p>
       <div class="input-group">
         <input type="text" id="authorName" class="input-field" placeholder="نام شما..." maxlength="25">
-        <div class="color-picker-label">
-          <span>رنگ کاغذ:</span>
-          <div class="color-options" id="colorPicker">
-            <span class="color-circle color1" data-color="color1" style="background:#fdeaa8;"></span>
-            <span class="color-circle color2" data-color="color2" style="background:#b8e6c8;"></span>
-            <span class="color-circle color3" data-color="color3" style="background:#f9c7b7;"></span>
-            <span class="color-circle color4 selected" data-color="color4" style="background:#c7dff5;"></span>
-            <span class="color-circle color5" data-color="color5" style="background:#e6c9e0;"></span>
-            <span class="color-circle color6" data-color="color6" style="background:#fcd9b8;"></span>
-          </div>
-        </div>
       </div>
-      <textarea id="noteText" class="input-field" rows="3" placeholder="دلنوشته خود را خطاب به حضرت علی (ع) بنویسید..." maxlength="160" style="width:100%; resize:vertical;"></textarea>
+      <p style="margin:5px 0;color:#4a3520">🎨 رنگ کاغذ:</p>
+      <div class="color-options" style="margin:10px 0">
+        <span class="color-circle color1 selected" data-color="color1" style="background:#fdeaa8"></span>
+        <span class="color-circle color2" data-color="color2" style="background:#b8e6c8"></span>
+        <span class="color-circle color3" data-color="color3" style="background:#f9c7b7"></span>
+        <span class="color-circle color4" data-color="color4" style="background:#c7dff5"></span>
+        <span class="color-circle color5" data-color="color5" style="background:#e6c9e0"></span>
+        <span class="color-circle color6" data-color="color6" style="background:#fcd9b8"></span>
+      </div>
+      <textarea id="noteText" class="input-field" rows="3" placeholder="دلنوشته خود را خطاب به حضرت علی (ع) بنویسید..." maxlength="160" style="width:100%;resize:vertical"></textarea>
       <button class="btn-submit" id="submitBtn">🕊️ ثبت دلنوشته</button>
     </div>
   </div>
 </div>
 
 <script>
-  (function() {
-    const JSONBIN_API_KEY = '$2a$10$2G/VWuKRLAP/S0mkwQ5.ju3AktmvZHohkT5/c.5Q5rtslCk2aa2GC';
-    const JSONBIN_BIN_ID = '67f8e8a48a4c0b1e8e4d5f2a';
-    const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
-    
-    const board = document.getElementById('bulletinBoard');
-    const authorInput = document.getElementById('authorName');
-    const noteInput = document.getElementById('noteText');
-    const submitBtn = document.getElementById('submitBtn');
-    const noteCountSpan = document.getElementById('noteCount');
-    const colorPicker = document.getElementById('colorPicker');
-    const adminPanel = document.getElementById('adminPanel');
-    const adminNotesList = document.getElementById('adminNotesList');
-    const loginBtn = document.getElementById('adminLoginBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    
-    let selectedColor = 'color4';
-    let isAdmin = false;
-    const ADMIN_PASSWORD = 'ghadir.ali.mahdi.44.44';
-    let notes = [];
+const board=document.getElementById('bulletinBoard');
+const authorInput=document.getElementById('authorName');
+const noteInput=document.getElementById('noteText');
+const submitBtn=document.getElementById('submitBtn');
+const noteCountSpan=document.getElementById('noteCount');
+const totalSalawatSpan=document.getElementById('totalSalawat');
+const totalFlowersSpan=document.getElementById('totalFlowers');
+const totalLightsSpan=document.getElementById('totalLights');
+const adminPanel=document.getElementById('adminPanel');
+const adminNotesList=document.getElementById('adminNotesList');
+const loginBtn=document.getElementById('adminLoginBtn');
+const logoutBtn=document.getElementById('logoutBtn');
+const confettiContainer=document.getElementById('confettiContainer');
+const themeSelect=document.getElementById('themeSelect');
+const sunMoon=document.getElementById('sunMoon');
+const salawatCountEl=document.getElementById('salawatCount');
+const salawatProgress=document.getElementById('salawatProgress');
+const ahdList=document.getElementById('ahdList');
+const ahdCount=document.getElementById('ahdCount');
+const ahdName=document.getElementById('ahdName');
+const ahdText=document.getElementById('ahdText');
+const duaList=document.getElementById('duaList');
+const duaName=document.getElementById('duaName');
+const duaText=document.getElementById('duaText');
+const hadithDisplay=document.getElementById('hadithDisplay');
+const savedHadiths=document.getElementById('savedHadiths');
+const giftStats=document.getElementById('giftStats');
+const treeStats=document.getElementById('treeStats');
+const guideContent=document.getElementById('guideContent');
 
-    function escapeHtml(text) {
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return text.replace(/[&<>"']/g, m => map[m]);
-    }
+let selectedColor='color1',isAdmin=false,notes=[],ahdNotes=[],duaNotes=[],gifts={},totalSalawatG=0,savedHadithList=[];
+const ADMIN_PASS='ghadir.ali.mahdi.44.44';
 
-    // بارگذاری از JSONBin
-    async function loadNotesFromServer() {
-      try {
-        const response = await fetch(JSONBIN_URL, {
-          headers: { 'X-Access-Key': JSONBIN_API_KEY }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          notes = data.record || [];
-        }
-      } catch(e) {
-        console.log('خطا در بارگذاری، استفاده از localStorage');
-        const stored = localStorage.getItem('ghadir_notes');
-        notes = stored ? JSON.parse(stored) : [];
-      }
-    }
+// ذخیره‌سازی در localStorage + همگام‌سازی با BroadcastChannel
+const channel=new BroadcastChannel('ghadir_channel');
 
-    // ذخیره در JSONBin
-    async function saveNotesToServer() {
-      try {
-        await fetch(JSONBIN_URL, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Access-Key': JSONBIN_API_KEY
-          },
-          body: JSON.stringify(notes)
-        });
-      } catch(e) {
-        console.log('خطا در ذخیره، استفاده از localStorage');
-      }
-      localStorage.setItem('ghadir_notes', JSON.stringify(notes));
-    }
+function loadAll(){
+  notes=JSON.parse(localStorage.getItem('ghadir_notes')||'[]');
+  ahdNotes=JSON.parse(localStorage.getItem('ghadir_ahd')||'[]');
+  duaNotes=JSON.parse(localStorage.getItem('ghadir_dua')||'[]');
+  totalSalawatG=parseInt(localStorage.getItem('ghadir_salawat')||'0');
+  gifts=JSON.parse(localStorage.getItem('ghadir_gifts')||'{}');
+  savedHadithList=JSON.parse(localStorage.getItem('ghadir_hadiths')||'[]');
+  renderAll();
+}
 
-    function renderAllNotes() {
-      board.innerHTML = '';
-      if (!notes.length) {
-        board.innerHTML = '<div style="width:100%;text-align:center;color:#6b4f32;padding:40px;">✨ هنوز دلنوشته‌ای ثبت نشده. اولین نفر باشید! ✨</div>';
-        noteCountSpan.textContent = '0';
-      } else {
-        notes.forEach((note) => {
-          const card = document.createElement('div');
-          card.className = 'note-card ' + note.color;
-          const rot = (Math.random() * 6 - 3).toFixed(1);
-          card.style.setProperty('--rot', rot + 'deg');
-          card.innerHTML = '<div class="note-text">' + escapeHtml(note.text) + '</div><div class="note-author">✤ ' + escapeHtml(note.author) + '</div>';
-          board.appendChild(card);
-        });
-        noteCountSpan.textContent = notes.length;
-      }
-      if (isAdmin) renderAdminPanel();
-    }
+function saveAll(){
+  localStorage.setItem('ghadir_notes',JSON.stringify(notes));
+  localStorage.setItem('ghadir_ahd',JSON.stringify(ahdNotes));
+  localStorage.setItem('ghadir_dua',JSON.stringify(duaNotes));
+  localStorage.setItem('ghadir_salawat',totalSalawatG.toString());
+  localStorage.setItem('ghadir_gifts',JSON.stringify(gifts));
+  localStorage.setItem('ghadir_hadiths',JSON.stringify(savedHadithList));
+  channel.postMessage({type:'update'});
+}
 
-    async function addNote() {
-      const author = authorInput.value.trim();
-      const text = noteInput.value.trim();
-      if (!author) { alert('لطفاً نام خود را وارد کنید.'); return; }
-      if (!text) { alert('لطفاً متن دلنوشته را بنویسید.'); return; }
-      
-      notes.push({ author, text, color: selectedColor });
-      await saveNotesToServer();
-      renderAllNotes();
-      authorInput.value = '';
-      noteInput.value = '';
-      authorInput.focus();
-    }
+channel.onmessage=(e)=>{if(e.data.type==='update')loadAll();};
 
-    window.deleteNote = async function(index) {
-      if (!isAdmin) return;
-      notes.splice(index, 1);
-      await saveNotesToServer();
-      renderAllNotes();
-    };
+function renderAll(){
+  renderNotes();renderAhd();renderDua();renderSalawat();renderGifts();renderTree();renderGuide();renderSavedHadiths();
+}
 
-    window.changeNoteColor = async function(index, newColor) {
-      if (!isAdmin) return;
-      notes[index].color = newColor;
-      await saveNotesToServer();
-      renderAllNotes();
-    };
+function createConfetti(){
+  const colors=['#fdeaa8','#b8e6c8','#f9c7b7','#c7dff5','#e6c9e0','#fcd9b8','#ffd700'];
+  for(let i=0;i<50;i++){
+    const c=document.createElement('div');c.className='confetti';
+    c.style.left=Math.random()*100+'%';c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration=(Math.random()*2+1)+'s';c.style.width=(Math.random()*10+10)+'px';c.style.height=(Math.random()*10+10)+'px';
+    confettiContainer.appendChild(c);setTimeout(()=>c.remove(),2500);
+  }
+}
 
-    function renderAdminPanel() {
-      if (!isAdmin) { adminNotesList.innerHTML = ''; return; }
-      adminNotesList.innerHTML = '';
-      notes.forEach((note, index) => {
-        const div = document.createElement('div');
-        div.className = 'admin-note';
-        div.innerHTML = '<span><b>' + escapeHtml(note.author) + ':</b> ' + escapeHtml(note.text) + '</span>' +
-          '<select onchange="window.changeNoteColor(' + index + ', this.value)">' +
-          '<option value="color1" ' + (note.color==='color1'?'selected':'') + '>🟡 زرد</option>' +
-          '<option value="color2" ' + (note.color==='color2'?'selected':'') + '>🟢 سبز</option>' +
-          '<option value="color3" ' + (note.color==='color3'?'selected':'') + '>🩷 صورتی</option>' +
-          '<option value="color4" ' + (note.color==='color4'?'selected':'') + '>🔵 آبی</option>' +
-          '<option value="color5" ' + (note.color==='color5'?'selected':'') + '>🟣 بنفش</option>' +
-          '<option value="color6" ' + (note.color==='color6'?'selected':'') + '>🟠 نارنجی</option>' +
-          '</select>' +
-          '<button onclick="window.deleteNote(' + index + ')">🗑️ حذف</button>';
-        adminNotesList.appendChild(div);
-      });
-    }
+function createFirework(x,y){
+  const colors=['#ff0','#f00','#0f0','#00f','#f0f','#0ff'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');p.className='firework';
+    p.style.left=x+'px';p.style.top=y+'px';p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.setProperty('--x',(Math.random()*200-100)+'px');p.style.setProperty('--y',(Math.random()*200-100)+'px');
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1500);
+  }
+}
 
-    window.adminLogin = function() {
-      const pass = document.getElementById('adminPassword').value;
-      if (pass === ADMIN_PASSWORD) {
-        isAdmin = true;
-        adminPanel.classList.add('active');
-        loginBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline-block';
-        document.getElementById('adminLoginPopup').classList.remove('active');
-        document.getElementById('loginError').style.display = 'none';
-        renderAdminPanel();
-        document.getElementById('adminPassword').value = '';
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    };
+function updateSunMoon(){
+  const h=new Date().getHours();
+  sunMoon.classList.toggle('night',h<6||h>=18);
+}
 
-    window.logout = function() {
-      isAdmin = false;
-      adminPanel.classList.remove('active');
-      loginBtn.style.display = 'inline-block';
-      logoutBtn.style.display = 'none';
-      adminNotesList.innerHTML = '';
-    };
-
-    window.openContactPopup = function() { document.getElementById('contactPopup').classList.add('active'); };
-    window.closeContactPopup = function() { document.getElementById('contactPopup').classList.remove('active'); };
-    window.openAdminLoginPopup = function() {
-      document.getElementById('adminLoginPopup').classList.add('active');
-      document.getElementById('loginError').style.display = 'none';
-    };
-    window.closeAdminLoginPopup = function() { document.getElementById('adminLoginPopup').classList.remove('active'); };
-
-    colorPicker.addEventListener('click', (e) => {
-      const circle = e.target.closest('.color-circle');
-      if (!circle) return;
-      document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
-      circle.classList.add('selected');
-      selectedColor = circle.dataset.color;
+function renderNotes(){
+  board.innerHTML='';let ts=0,tf=0,tl=0;
+  if(!notes.length){board.innerHTML='<p style="color:#6b4f32;width:100%;text-align:center;padding:40px">✨ اولین دلنوشته را شما بنویسید! ✨</p>';}
+  else{
+    notes.forEach((n,i)=>{
+      n.salawat=n.salawat||0;n.flowers=n.flowers||0;n.lights=n.lights||0;ts+=n.salawat;tf+=n.flowers;tl+=n.lights;
+      const card=document.createElement('div');card.className='note-card '+n.color;
+      card.style.transform='rotate('+(Math.random()*6-3)+'deg)';
+      card.innerHTML='<div class="note-text">'+escapeHtml(n.text)+'</div><div class="note-author">✤ '+escapeHtml(n.author)+'</div><div class="note-reactions"><button class="reaction-btn" onclick="addReaction('+i+',\'salawat\',event)">🕊️ <small>'+n.salawat+'</small></button><button class="reaction-btn" onclick="addReaction('+i+',\'flowers\',event)">🌹 <small>'+n.flowers+'</small></button><button class="reaction-btn" onclick="addReaction('+i+',\'lights\',event)">💡 <small>'+n.lights+'</small></button></div>';
+      board.appendChild(card);
     });
+  }
+  noteCountSpan.textContent=notes.length;totalSalawatSpan.textContent=ts;totalFlowersSpan.textContent=tf;totalLightsSpan.textContent=tl;
+  if(isAdmin)renderAdmin();
+}
 
-    submitBtn.addEventListener('click', addNote);
-    noteInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addNote(); }
-    });
+async function addReaction(i,type,event){
+  notes[i][type]=(notes[i][type]||0)+1;
+  const btn=event.target.closest('.reaction-btn'),efx=document.createElement('span');
+  efx.className='reaction-efx';efx.textContent=type==='salawat'?'🕊️':type==='flowers'?'🌹':'💡';
+  btn.appendChild(efx);setTimeout(()=>efx.remove(),800);
+  saveAll();renderNotes();
+}
 
-    // شروع
-    (async function init() {
-      await loadNotesFromServer();
-      renderAllNotes();
-      // رفرش خودکار هر ۱۰ ثانیه
-      setInterval(async () => {
-        await loadNotesFromServer();
-        renderAllNotes();
-      }, 10000);
-    })();
-  })();
+async function addNote(){
+  const a=authorInput.value.trim(),t=noteInput.value.trim();
+  if(!a||!t){alert('نام و متن را وارد کنید');return;}
+  notes.push({author:a,text:t,color:selectedColor,salawat:0,flowers:0,lights:0});
+  saveAll();renderAll();createConfetti();authorInput.value='';noteInput.value='';
+}
+
+function renderSalawat(){
+  salawatCountEl.textContent=totalSalawatG.toLocaleString('fa-IR');
+  salawatProgress.style.width=Math.min((totalSalawatG/110000)*100,100)+'%';
+}
+
+async function sendSalawat(){
+  totalSalawatG++;saveAll();renderSalawat();
+  const efx=document.createElement('span');efx.className='reaction-efx';efx.textContent='🕊️';
+  efx.style.position='fixed';efx.style.top='50%';efx.style.left='50%';efx.style.fontSize='3rem';
+  document.body.appendChild(efx);setTimeout(()=>efx.remove(),1000);
+}
+
+function renderGifts(){const g={'🌹':0,'💚':0,'🕯️':0,'📖':0,'🏮':0,'💎':0};Object.assign(g,gifts);giftStats.innerHTML=Object.entries(g).map(([k,v])=>k+': '+(v||0)).join(' | ');}
+async function sendGift(g){gifts[g]=(gifts[g]||0)+1;saveAll();renderGifts();}
+
+function renderAhd(){ahdList.innerHTML='';ahdNotes.forEach(a=>{const d=document.createElement('div');d.className='ahd-item';d.innerHTML='🖊️ <b>'+escapeHtml(a.name)+'</b> عهد می‌بندد که '+escapeHtml(a.text);ahdList.appendChild(d);});ahdCount.textContent=ahdNotes.length;}
+async function addAhd(){const n=ahdName.value.trim(),t=ahdText.value.trim();if(!n||!t){alert('نام و عهد را وارد کنید');return;}ahdNotes.push({name:n,text:t});saveAll();renderAhd();ahdName.value='';ahdText.value='';}
+
+function renderDua(){
+  duaList.innerHTML='';
+  duaNotes.forEach((d,i)=>{
+    const div=document.createElement('div');div.className='dua-item';
+    div.innerHTML='🙏 <b>'+escapeHtml(d.name)+':</b> '+escapeHtml(d.text)+'<br><small>🤲 آمین: '+(d.amin||0)+' | دابل کلیک کن</small>';
+    div.addEventListener('dblclick',()=>{duaNotes[i].amin=(duaNotes[i].amin||0)+1;saveAll();renderDua();});
+    duaList.appendChild(div);
+  });
+}
+async function addDua(){const n=duaName.value.trim(),t=duaText.value.trim();if(!n||!t){alert('نام و دعا را وارد کنید');return;}duaNotes.push({name:n,text:t,amin:0});saveAll();renderDua();duaName.value='';duaText.value='';}
+
+const hadiths=['قال علی (ع): "العلم خیر من المال"','قال علی (ع): "من عذب لسانه کثر اخوانه"','قال علی (ع): "خیر الناس من نفع الناس"','قال علی (ع): "الصبر صبران: صبر عند المصیبة و صبر عند المعصیة"','قال علی (ع): "لسان العاقل وراء قلبه"','قال علی (ع): "من اصلح سریرته اصلح الله علانیته"','قال علی (ع): "الکرم اعطف من الرحم"','قال علی (ع): "احصد الشر من صدر غیرک بقلعه من صدرک"'];
+let currentHadith=0;
+function showRandomHadith(){currentHadith=Math.floor(Math.random()*hadiths.length);hadithDisplay.textContent=hadiths[currentHadith];}
+function saveHadith(){if(!savedHadithList.includes(hadiths[currentHadith])){savedHadithList.push(hadiths[currentHadith]);saveAll();renderSavedHadiths();}}
+function renderSavedHadiths(){savedHadiths.innerHTML=savedHadithList.map(h=>'<p>💾 '+h+'</p>').join('');}
+
+function renderTree(){treeStats.innerHTML='🍃 برگ‌ها: '+notes.length+' | 🌸 شکوفه‌ها: '+totalSalawatG+' | 🍎 میوه‌ها: '+duaNotes.length;}
+
+function renderGuide(){
+  guideContent.innerHTML='<button class="close-btn" onclick="closePopup(\'guidePopup\')">✕</button><h3>📚 راهنمای کامل سایت</h3><div class="guide-section"><h3>✍️ نوشتن دلنوشته</h3><p>نام و متن را وارد کنید، رنگ کاغذ را انتخاب کنید و ثبت کنید.</p><h3>🕊️🌹💡 واکنش‌ها</h3><p>روی دلنوشته‌ها سه دکمه صلوات، گل و نور وجود دارد.</p><h3>📿 صلوات شمار</h3><p>دکمه بزرگ صلوات را بزنید. هدف: ۱۱۰,۰۰۰</p><h3>🎁 هدیه</h3><p>از منو گزینه هدیه را انتخاب کنید.</p><h3>📜 طومار عهد</h3><p>عهد خود را با حضرت علی (ع) بنویسید.</p><h3>🤲 دعا</h3><p>دعا بنویسید. بقیه با دابل کلیک آمین می‌گویند.</p><h3>📖 احادیث</h3><p>احادیث علوی را ببینید و ذخیره کنید.</p><h3>🌳 درخت غدیر</h3><p>با دلنوشته‌ها، صلوات‌ها و دعاها رشد می‌کند.</p><h3>🎨 تم‌ها</h3><p>۱۰ تم رنگی از منو انتخاب کنید.</p><h3>🔐 مدیریت</h3><p>با رمز وارد پنل مدیریت شوید.</p></div>';
+}
+
+window.deleteNote=async function(i){if(!isAdmin)return;notes.splice(i,1);saveAll();renderAll();};
+window.changeColor=async function(i,c){if(!isAdmin)return;notes[i].color=c;saveAll();renderAll();};
+function renderAdmin(){
+  adminNotesList.innerHTML='';notes.forEach((n,i)=>{const d=document.createElement('div');d.className='admin-note';d.innerHTML='<span><b>'+escapeHtml(n.author)+':</b> '+escapeHtml(n.text)+'</span><select onchange="changeColor('+i+',this.value)"><option value="color1" '+(n.color=='color1'?'selected':'')+'>زرد</option><option value="color2" '+(n.color=='color2'?'selected':'')+'>سبز</option><option value="color3" '+(n.color=='color3'?'selected':'')+'>صورتی</option><option value="color4" '+(n.color=='color4'?'selected':'')+'>آبی</option><option value="color5" '+(n.color=='color5'?'selected':'')+'>بنفش</option><option value="color6" '+(n.color=='color6'?'selected':'')+'>نارنجی</option></select><button onclick="deleteNote('+i+')">🗑️</button>';adminNotesList.appendChild(d);});
+}
+
+window.adminLogin=function(){if(document.getElementById('adminPassword').value===ADMIN_PASS){isAdmin=true;adminPanel.classList.add('active');loginBtn.style.display='none';logoutBtn.style.display='inline-block';closePopup('adminLoginPopup');document.getElementById('adminPassword').value='';renderAll();}else{document.getElementById('loginError').style.display='block';}};
+window.logout=function(){isAdmin=false;adminPanel.classList.remove('active');loginBtn.style.display='inline-block';logoutBtn.style.display='none';};
+
+window.openPopup=function(id){document.getElementById(id).classList.add('active');if(id==='hadithPopup')showRandomHadith();};
+window.closePopup=function(id){document.getElementById(id).classList.remove('active');};
+window.changeTheme=function(t){document.body.className=t;localStorage.setItem('ghadir_theme',t);};
+window.showRandomNote=function(){if(!notes.length){alert('هنوز دلنوشته‌ای نیست!');return;}const r=notes[Math.floor(Math.random()*notes.length)];document.getElementById('randomNoteContent').innerHTML='<button class="close-btn" onclick="closePopup(\'randomNotePopup\')">✕</button><h3>🎲 دلنوشته شانسی</h3><div class="note-card '+r.color+'" style="width:200px;min-height:200px;margin:20px auto;font-size:1rem;transform:none!important"><p>'+escapeHtml(r.text)+'</p><small>✤ '+escapeHtml(r.author)+'</small></div>';openPopup('randomNotePopup');};
+
+function escapeHtml(t){const m={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};return t.replace(/[&<>"']/g,x=>m[x]);}
+
+document.querySelectorAll('.color-circle').forEach(c=>{c.addEventListener('click',function(){document.querySelectorAll('.color-circle').forEach(x=>x.classList.remove('selected'));this.classList.add('selected');selectedColor=this.dataset.color;});});
+submitBtn.addEventListener('click',addNote);
+noteInput.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addNote();}});
+
+const savedTheme=localStorage.getItem('ghadir_theme');if(savedTheme){document.body.className=savedTheme;themeSelect.value=savedTheme;}
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>{createFirework(window.innerWidth*0.2,window.innerHeight*0.3);createFirework(window.innerWidth*0.8,window.innerHeight*0.2);},500);
+  updateSunMoon();setInterval(updateSunMoon,60000);
+  loadAll();
+  document.getElementById('guideContent').innerHTML=document.getElementById('guideContent').innerHTML;
+});
 </script>
 </body>
 </html>
