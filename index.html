@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>روزنامه دیواری غدیر | دلنوشته‌هایی برای مولای متقیان</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Tahoma', 'Vazirmatn', sans-serif;
@@ -17,10 +13,149 @@
       background-image: radial-gradient(circle at 20% 30%, #3d2b1a 5%, #1f1408 90%);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       padding: 20px;
       margin: 0;
+    }
+
+    .top-menu {
+      width: 100%;
+      max-width: 950px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu-btn {
+      background: rgba(212, 175, 55, 0.8);
+      border: 2px solid #8b6508;
+      color: #3b2b10;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 0.9rem;
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+    }
+
+    .menu-btn:hover { background: #d4af37; }
+
+    .logout-btn { background: #8b6508; color: white; }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup.active { display: flex; }
+
+    .popup-content {
+      background: #fdf5e6;
+      border: 3px solid #d4af37;
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      position: relative;
+      width: 90%;
+    }
+
+    .popup-content h3 { color: #3b2b10; margin-bottom: 15px; }
+    .popup-content p { color: #5c3a1f; margin: 8px 0; }
+    .popup-content .email { color: #1e4d2b; font-weight: bold; direction: ltr; }
+    .popup-content .small-text { font-size: 0.75rem; color: #8b6508; margin-top: 12px; }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; left: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #8b6508;
+      background: none;
+      border: none;
+    }
+
+    .login-input {
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #c9a86b;
+      font-family: inherit;
+      text-align: center;
+      margin: 10px 0;
+      width: 80%;
+    }
+
+    .login-btn {
+      background: #1e4d2b;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      margin: 5px;
+    }
+
+    .error-msg { color: red; font-size: 0.8rem; display: none; }
+
+    .admin-panel {
+      display: none;
+      width: 100%;
+      max-width: 950px;
+      background: rgba(255, 248, 235, 0.95);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 2px solid #d4af37;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .admin-panel.active { display: block; }
+    .admin-panel h3 { color: #3b2b10; text-align: center; margin-bottom: 10px; }
+
+    .admin-note {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .admin-note span { font-size: 0.85rem; color: #3b2b10; }
+    .admin-note button {
+      background: #c41e1e;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+    }
+
+    .admin-note select {
+      padding: 5px;
+      border-radius: 10px;
+      border: 1px solid #c9a86b;
+      font-family: inherit;
+      font-size: 0.8rem;
     }
 
     .outer-frame {
@@ -42,10 +177,7 @@
       border: 2px dashed #b8860b;
     }
 
-    .title-section {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+    .title-section { text-align: center; margin-bottom: 25px; }
 
     .main-title {
       font-size: 4.5rem;
@@ -93,8 +225,6 @@
       font-size: 0.8rem;
       line-height: 1.5;
       word-break: break-word;
-      transition: transform 0.2s;
-      cursor: default;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -128,13 +258,7 @@
       width: 100%;
     }
 
-    .note-text {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-style: italic;
-    }
+    .note-text { flex: 1; display: flex; align-items: center; justify-content: center; font-style: italic; }
 
     .color1 { background: #fdeaa8; }
     .color2 { background: #b8e6c8; }
@@ -161,12 +285,7 @@
       text-align: center;
     }
 
-    .input-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
+    .input-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
 
     .input-field {
       flex: 1 1 180px;
@@ -178,24 +297,11 @@
       font-size: 0.9rem;
     }
 
-    .color-picker-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1 1 200px;
-      font-size: 0.9rem;
-      color: #4a3520;
-    }
-
-    .color-options {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .color-picker-label { display: flex; align-items: center; gap: 8px; flex: 1 1 200px; font-size: 0.9rem; color: #4a3520; }
+    .color-options { display: flex; gap: 8px; flex-wrap: wrap; }
 
     .color-circle {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       border-radius: 50%;
       cursor: pointer;
       border: 2px solid transparent;
@@ -223,6 +329,7 @@
       box-shadow: 0 6px 0 #0a1f0e;
       letter-spacing: 1px;
       border: 1px solid #d4af37;
+      font-family: inherit;
     }
 
     .btn-submit:hover {
@@ -231,29 +338,50 @@
       transform: translateY(2px);
     }
 
-    .message-counter {
-      text-align: center;
-      margin: 10px 0;
-      color: #4b3621;
-      font-weight: 500;
-    }
+    .message-counter { text-align: center; margin: 10px 0; color: #4b3621; font-weight: 500; }
+    .loading { text-align: center; color: #6b4f32; padding: 40px; font-style: italic; }
 
     @media (max-width: 600px) {
-      .outer-frame {
-        padding: 12px;
-      }
-      .main-title {
-        font-size: 3rem;
-      }
-      .note-card {
-        width: 100px;
-        min-height: 110px;
-        font-size: 0.7rem;
-      }
+      .outer-frame { padding: 12px; }
+      .main-title { font-size: 3rem; }
+      .note-card { width: 100px; min-height: 110px; font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
+
+<div class="top-menu">
+  <button class="menu-btn" onclick="openContactPopup()">📧 ارتباط با سازنده</button>
+  <button class="menu-btn" id="adminLoginBtn" onclick="openAdminLoginPopup()">🔐 ورود سازنده</button>
+  <button class="menu-btn logout-btn" id="logoutBtn" style="display:none;" onclick="logout()">🚪 خروج</button>
+</div>
+
+<div class="admin-panel" id="adminPanel">
+  <h3>🛠️ پنل مدیریت</h3>
+  <div id="adminNotesList"></div>
+</div>
+
+<div class="popup" id="contactPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closeContactPopup()">✕</button>
+    <h3>📧 ارتباط با سازنده</h3>
+    <p>برای ارتباط با سازنده:</p>
+    <p class="email">ali.ali.barghamadi.4.4@gmail.com</p>
+    <p class="small-text">علی برغمدی</p>
+  </div>
+</div>
+
+<div class="popup" id="adminLoginPopup">
+  <div class="popup-content">
+    <button class="close-btn" onclick="closeAdminLoginPopup()">✕</button>
+    <h3>🔐 ورود سازنده</h3>
+    <input type="password" class="login-input" id="adminPassword" placeholder="رمز عبور">
+    <br>
+    <button class="login-btn" onclick="adminLogin()">ورود</button>
+    <p class="error-msg" id="loginError">❌ رمز اشتباه است!</p>
+  </div>
+</div>
+
 <div class="outer-frame">
   <div class="inner-frame">
     <div class="title-section">
@@ -262,12 +390,13 @@
     </div>
 
     <div id="bulletinBoard" class="bulletin-board">
+      <div class="loading">⏳ در حال بارگذاری دلنوشته‌ها...</div>
     </div>
 
     <div class="message-counter">تاکنون <span id="noteCount">0</span> دلنوشته به این روزنامه دیواری اضافه شده است.</div>
 
     <div class="form-section">
-      <div class="form-title">✍️ دلنوشته خود را بنویسید و به روزنامه دیواری بپیوندید</div>
+      <div class="form-title">✍️ دلنوشته خود را بنویسید</div>
       <div class="input-group">
         <input type="text" id="authorName" class="input-field" placeholder="نام شما..." maxlength="25">
         <div class="color-picker-label">
@@ -283,136 +412,194 @@
         </div>
       </div>
       <textarea id="noteText" class="input-field" rows="3" placeholder="دلنوشته خود را خطاب به حضرت علی (ع) بنویسید..." maxlength="160" style="width:100%; resize:vertical;"></textarea>
-      <button class="btn-submit" id="submitBtn">🕊️ ثبت دلنوشته بر روی روزنامه دیواری</button>
+      <button class="btn-submit" id="submitBtn">🕊️ ثبت دلنوشته</button>
     </div>
   </div>
 </div>
 
 <script>
   (function() {
+    const JSONBIN_API_KEY = '$2a$10$2G/VWuKRLAP/S0mkwQ5.ju3AktmvZHohkT5/c.5Q5rtslCk2aa2GC';
+    const JSONBIN_BIN_ID = '67f8e8a48a4c0b1e8e4d5f2a';
+    const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
+    
     const board = document.getElementById('bulletinBoard');
     const authorInput = document.getElementById('authorName');
     const noteInput = document.getElementById('noteText');
     const submitBtn = document.getElementById('submitBtn');
     const noteCountSpan = document.getElementById('noteCount');
     const colorPicker = document.getElementById('colorPicker');
-
+    const adminPanel = document.getElementById('adminPanel');
+    const adminNotesList = document.getElementById('adminNotesList');
+    const loginBtn = document.getElementById('adminLoginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
     let selectedColor = 'color4';
-
-    const initialNotes = [
-      { author: "محمد", text: "ای مولای من، غدیر روز کمال دین است. تو جان پیامبری.", color: "color1" },
-      { author: "فاطمه", text: "علی جان، عشق تو در قلبم جاودانه است. عیدت مبارک.", color: "color3" },
-      { author: "امیرعلی", text: "هر روز با یاد تو آغاز می‌کنم. یا امیرالمؤمنین.", color: "color6" },
-      { author: "زهرا", text: "غدیر یعنی علی مولای همه خوبی‌هاست.", color: "color2" },
-      { author: "حسین", text: "اگر هزار بار هم بگویم علی، کم گفته‌ام.", color: "color5" },
-      { author: "نرگس", text: "خوشا به حال غدیر که نام علی را یدک می‌کشد.", color: "color4" }
-    ];
-
+    let isAdmin = false;
+    const ADMIN_PASSWORD = 'ghadir.ali.mahdi.44.44';
     let notes = [];
 
-    function saveNotesToStorage() {
-      localStorage.setItem('ghadir_notes', JSON.stringify(notes));
-    }
-
-    function loadNotesFromStorage() {
-      const stored = localStorage.getItem('ghadir_notes');
-      if (stored) {
-        try {
-          notes = JSON.parse(stored);
-        } catch(e) {
-          notes = [...initialNotes];
-        }
-      } else {
-        notes = [...initialNotes];
-      }
-      if (!notes.length) notes = [...initialNotes];
-    }
-
     function escapeHtml(text) {
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
       return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // بارگذاری از JSONBin
+    async function loadNotesFromServer() {
+      try {
+        const response = await fetch(JSONBIN_URL, {
+          headers: { 'X-Access-Key': JSONBIN_API_KEY }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          notes = data.record || [];
+        }
+      } catch(e) {
+        console.log('خطا در بارگذاری، استفاده از localStorage');
+        const stored = localStorage.getItem('ghadir_notes');
+        notes = stored ? JSON.parse(stored) : [];
+      }
+    }
+
+    // ذخیره در JSONBin
+    async function saveNotesToServer() {
+      try {
+        await fetch(JSONBIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Key': JSONBIN_API_KEY
+          },
+          body: JSON.stringify(notes)
+        });
+      } catch(e) {
+        console.log('خطا در ذخیره، استفاده از localStorage');
+      }
+      localStorage.setItem('ghadir_notes', JSON.stringify(notes));
     }
 
     function renderAllNotes() {
       board.innerHTML = '';
       if (!notes.length) {
-        board.innerHTML = '<div style="width:100%; text-align:center; color:#6b4f32; padding:40px; font-style:italic;">هنوز دلنوشته‌ای ثبت نشده. اولین نفر باشید...</div>';
+        board.innerHTML = '<div style="width:100%;text-align:center;color:#6b4f32;padding:40px;">✨ هنوز دلنوشته‌ای ثبت نشده. اولین نفر باشید! ✨</div>';
         noteCountSpan.textContent = '0';
-        return;
+      } else {
+        notes.forEach((note) => {
+          const card = document.createElement('div');
+          card.className = 'note-card ' + note.color;
+          const rot = (Math.random() * 6 - 3).toFixed(1);
+          card.style.setProperty('--rot', rot + 'deg');
+          card.innerHTML = '<div class="note-text">' + escapeHtml(note.text) + '</div><div class="note-author">✤ ' + escapeHtml(note.author) + '</div>';
+          board.appendChild(card);
+        });
+        noteCountSpan.textContent = notes.length;
       }
-
-      notes.forEach((note) => {
-        const card = document.createElement('div');
-        card.className = 'note-card ' + note.color;
-        const randomRot = (Math.random() * 6 - 3).toFixed(1);
-        card.style.setProperty('--rot', randomRot + 'deg');
-        
-        card.innerHTML = '<div class="note-text">' + escapeHtml(note.text) + '</div><div class="note-author">✤ ' + escapeHtml(note.author) + '</div>';
-        board.appendChild(card);
-      });
-
-      noteCountSpan.textContent = notes.length;
-      saveNotesToStorage();
+      if (isAdmin) renderAdminPanel();
     }
 
-    function addNote() {
+    async function addNote() {
       const author = authorInput.value.trim();
       const text = noteInput.value.trim();
-
-      if (!author) {
-        alert('لطفاً نام خود را وارد کنید.');
-        authorInput.focus();
-        return;
-      }
-      if (!text) {
-        alert('لطفاً متن دلنوشته خود را بنویسید.');
-        noteInput.focus();
-        return;
-      }
-      if (text.length < 3) {
-        alert('دلنوشته کمی طولانی‌تر بنویسید (حداقل ۳ حرف).');
-        noteInput.focus();
-        return;
-      }
-
-      notes.push({
-        author: author,
-        text: text,
-        color: selectedColor
-      });
-
+      if (!author) { alert('لطفاً نام خود را وارد کنید.'); return; }
+      if (!text) { alert('لطفاً متن دلنوشته را بنویسید.'); return; }
+      
+      notes.push({ author, text, color: selectedColor });
+      await saveNotesToServer();
       renderAllNotes();
       authorInput.value = '';
       noteInput.value = '';
       authorInput.focus();
     }
 
+    window.deleteNote = async function(index) {
+      if (!isAdmin) return;
+      notes.splice(index, 1);
+      await saveNotesToServer();
+      renderAllNotes();
+    };
+
+    window.changeNoteColor = async function(index, newColor) {
+      if (!isAdmin) return;
+      notes[index].color = newColor;
+      await saveNotesToServer();
+      renderAllNotes();
+    };
+
+    function renderAdminPanel() {
+      if (!isAdmin) { adminNotesList.innerHTML = ''; return; }
+      adminNotesList.innerHTML = '';
+      notes.forEach((note, index) => {
+        const div = document.createElement('div');
+        div.className = 'admin-note';
+        div.innerHTML = '<span><b>' + escapeHtml(note.author) + ':</b> ' + escapeHtml(note.text) + '</span>' +
+          '<select onchange="window.changeNoteColor(' + index + ', this.value)">' +
+          '<option value="color1" ' + (note.color==='color1'?'selected':'') + '>🟡 زرد</option>' +
+          '<option value="color2" ' + (note.color==='color2'?'selected':'') + '>🟢 سبز</option>' +
+          '<option value="color3" ' + (note.color==='color3'?'selected':'') + '>🩷 صورتی</option>' +
+          '<option value="color4" ' + (note.color==='color4'?'selected':'') + '>🔵 آبی</option>' +
+          '<option value="color5" ' + (note.color==='color5'?'selected':'') + '>🟣 بنفش</option>' +
+          '<option value="color6" ' + (note.color==='color6'?'selected':'') + '>🟠 نارنجی</option>' +
+          '</select>' +
+          '<button onclick="window.deleteNote(' + index + ')">🗑️ حذف</button>';
+        adminNotesList.appendChild(div);
+      });
+    }
+
+    window.adminLogin = function() {
+      const pass = document.getElementById('adminPassword').value;
+      if (pass === ADMIN_PASSWORD) {
+        isAdmin = true;
+        adminPanel.classList.add('active');
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        document.getElementById('adminLoginPopup').classList.remove('active');
+        document.getElementById('loginError').style.display = 'none';
+        renderAdminPanel();
+        document.getElementById('adminPassword').value = '';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    };
+
+    window.logout = function() {
+      isAdmin = false;
+      adminPanel.classList.remove('active');
+      loginBtn.style.display = 'inline-block';
+      logoutBtn.style.display = 'none';
+      adminNotesList.innerHTML = '';
+    };
+
+    window.openContactPopup = function() { document.getElementById('contactPopup').classList.add('active'); };
+    window.closeContactPopup = function() { document.getElementById('contactPopup').classList.remove('active'); };
+    window.openAdminLoginPopup = function() {
+      document.getElementById('adminLoginPopup').classList.add('active');
+      document.getElementById('loginError').style.display = 'none';
+    };
+    window.closeAdminLoginPopup = function() { document.getElementById('adminLoginPopup').classList.remove('active'); };
+
     colorPicker.addEventListener('click', (e) => {
       const circle = e.target.closest('.color-circle');
       if (!circle) return;
-      
       document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
       circle.classList.add('selected');
       selectedColor = circle.dataset.color;
     });
 
     submitBtn.addEventListener('click', addNote);
-
     noteInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        addNote();
-      }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addNote(); }
     });
 
-    loadNotesFromStorage();
-    renderAllNotes();
+    // شروع
+    (async function init() {
+      await loadNotesFromServer();
+      renderAllNotes();
+      // رفرش خودکار هر ۱۰ ثانیه
+      setInterval(async () => {
+        await loadNotesFromServer();
+        renderAllNotes();
+      }, 10000);
+    })();
   })();
 </script>
 </body>
